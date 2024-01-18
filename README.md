@@ -2,6 +2,8 @@
 - Node.js: `npm i @niknils/requests`
 - Browser: `<script src="https://cdn.jsdelivr.net/npm/@niknils/requests"></script>`
 
+do sync & async requests in JavaScript with some addations in some syntax
+
 [?`@niknils`](https://slnknrr.codeberg.page/whoami#alias:niknils)
 # usage (browser, etc)
 ## example:
@@ -11,7 +13,11 @@ req("https://captive.apple.com/", false).thenSync(200, (response)=>{
 }).else(-0, ()=>{
   console.log(`CORS error {:`);
 }).else((response)=>{ //-1 means any errors with internet (in review)
-  console.log(`HTTP code`, response.code);
+  if (response.code>0) {
+    console.log(`HTTP code`, response.code);
+  } else {
+    console.log(`internal error`, response.code);
+  }
 })
 ```
 
@@ -26,6 +32,9 @@ req(performAsync,requestMethod,requestURIs,requestHeaders,responseFormat,respons
 **requestMethod (`string := 'GET'`)**
 - `GET`
 - another in developing
+
+**requestURIs (`?[]string := Error`)**
+- your URIs for perform requests
 
 **requestHeaders (`?[]string, object := {}`)**
 - `headers`; in review
@@ -47,3 +56,26 @@ req(performAsync,requestMethod,requestURIs,requestHeaders,responseFormat,respons
 
 **onError (`?[]function := []`)**
 - execution functions if !=  onSuccess execution
+
+# response
+```JavaScript
+req(['website1', 'website2']).thenAllSync(200, ()=>{}).fail(()=>{
+  console.log(`any error`)
+})
+```
+
+## methods
+**base, blob, text, json, mime**
+- todo desc; in review
+
+**then, thenSync, thenAll, thenAllSync**
+- todo desc;
+
+**else, elseSync, elseAll, elseAllSync**
+- todo desc;
+
+**next, nextSync, nextAll, nextAllSync**
+- todo desc;
+
+**fail, failSync, failAll, failAllSync**
+- todo desc;
